@@ -1,18 +1,17 @@
 package org.example;
 
 public class Toy {
-    private Integer toyId; // id игрушки
+    private static Integer count = 0;
+    private Integer toyId = 0; // id игрушки
     public String toyName; // название игрушки
     public Integer numberOfToys; // колличество указанных игрушек
     public Integer dropProbability; // вероятность выпадения игрушки
 
-    //todo: Сделать автоматическое присваивание id игрушке.
-
     public Toy() {
     }
 
-    public Toy(Integer toyId, String toyName, Integer numberOfToys, Integer dropProbability) {
-        this.toyId = toyId;
+    public Toy(String toyName, Integer numberOfToys, Integer dropProbability) {
+        this.toyId = count++; // автоматически присваиваем id
         this.toyName = toyName;
         this.numberOfToys = numberOfToys;
         this.dropProbability = dropProbability;

@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * класс для розыгрыша игрушек
@@ -10,8 +11,7 @@ import java.util.Random;
 
 public class Giveaway {
     public ArrayList<Toy> toysToWin = new ArrayList<>();
-    public String[] arrForLottery = new String[10];
-    public String prize;
+    public int prize;
 
     public Giveaway() {
     }
@@ -24,45 +24,41 @@ public class Giveaway {
         this.toysToWin.add(toy);
     }
 
-    /**
-     * создаем массив с именами игрушек учавствующих в розыгрыше, где кол-во каждой игрушки пропорционально
-     * вероятности её выпадения
-     */
-    public void getArrForLottery(){
-        for (Toy toy : toysToWin) {
-            int n = toy.getDropProbability() / 10;
-            while (n != 0){
-                Random random = new Random();
-                int i = random.nextInt(10);
-                while (this.arrForLottery[i] != null){
-                    i = random.nextInt(10);
-                }
-                this.arrForLottery[i] = toy.getToyName();
-                n--;
+    public void randomize(){
+        int[] ids = new int[toysToWin.size()];
+        int[] chance = new int[toysToWin.size()];
+        for (int i = 0; i < toysToWin.size(); i++) {
+            ids[i] = toysToWin.get(i).getToyId();
+            chance[i] = toysToWin.get(i).getDropProbability();
+        }
+
+        int count = IntStream.of(chance).sum();
+
+        Random random = new Random();
+
+        int index = random.nextInt(count);
+
+        for (int i = 0; i < chance.length; i++){
+            index -= chance[i];
+            if (index < 0){
+                this.prize = ids[i];
+                break;
             }
         }
     }
-
-    /**
-     * случайным образом разыгрываем игрушку
-     */
-    public void randomPrize(){
-        Random random = new Random();
-        int n = random.nextInt(10);
-        this.prize = this.arrForLottery[n];
-    }
-    //todo: придумать как сделать рандом с вероятностью по другому; что делать если вероятность выпадения 25%?
 
     /**
      * забираем выигранную игрушку и уменьшаем оставшееся кол-во таких игрушек
      */
     public void getPrize(){
+        String prizeName = null;
         for (Toy toy : toysToWin) {
-            if (toy.getToyName() == this.prize){
+            if (toy.getToyId() == this.prize){
                 toy.setNumberOfToys(toy.getNumberOfToys()-1);
+                prizeName = toy.getToyName();
             }
         }
-        System.out.println("Поздравляем, Вы выиграли: " + this.prize);
+        System.out.println("Поздравляем, Вы выиграли: " + prizeName);
     }
 
 
