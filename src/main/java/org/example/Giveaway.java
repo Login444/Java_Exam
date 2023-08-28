@@ -24,6 +24,11 @@ public class Giveaway {
         this.toysToWin.add(toy);
     }
 
+
+    /**
+     * метод для розыгрыша игрушки с учетом шанса её выпадения
+     */
+    // TODO: 28.08.2023 добавить проверку на сумму вероятностей выпадения не превышающую 100 (можно попробовать исключение)
     public void randomize(){
         int[] ids = new int[toysToWin.size()];
         int[] chance = new int[toysToWin.size()];
