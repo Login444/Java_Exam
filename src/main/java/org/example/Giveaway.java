@@ -37,6 +37,7 @@ public class Giveaway {
             chance[i] = toysToWin.get(i).getDropProbability();
         }
 
+
         int count = IntStream.of(chance).sum();
 
         Random random = new Random();
