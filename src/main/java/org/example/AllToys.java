@@ -1,7 +1,10 @@
 package org.example;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class AllToys {
@@ -20,6 +23,17 @@ public class AllToys {
     public void showAllToys(){
         for (Toy toy : toys) {
             System.out.println(toy.toString()+"\n");
+        }
+    }
+
+    public void saveToysToFile(){
+        File file = new File("toys_in_market.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))){
+            for (Toy toy : toys) {
+                writer.write(toy.toString()+"\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

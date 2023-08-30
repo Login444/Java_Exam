@@ -11,28 +11,26 @@ public class Application {
     public void start() {
         menu();
         int n = intInput.nextInt();
-        while (n != 6) {
+        while (n != 7) {
             if (n == 1) {
                 allToys.addNewToy(createToy());
+                allToys.saveToysToFile();
             }
-
             if (n == 2) {
                 allToys.showAllToys();
             }
-
             if (n == 3) {
                 addToyTogiveaway();
             }
-
-
             if (n == 4) {
+                addAllToysToGiveaway();
+            }
+            if (n == 5) {
                 giveaway.randomize();
             }
-
-            if (n == 5) {
+            if (n == 6) {
                 giveaway.getPrize();
             }
-
             menu();
             n = intInput.nextInt();
         }
@@ -49,16 +47,23 @@ public class Application {
         }
     }
 
+    public void addAllToysToGiveaway(){
+        for (Toy toy : allToys.toys) {
+            giveaway.addToy(toy);
+        }
+    }
+
 
 
     public void menu(){
         System.out.println("Выберите действие:" +
                 "\n1.Создать игрушку" +
                 "\n2.Показать все имеющиеся игрушки" +
-                "\n3.Добавить игрушку к розыгрышу" +
-                "\n4.Разыграть игрушку" +
-                "\n5.Забрать игрушку" +
-                "\n6.Выход");
+                "\n3.Добавить одну игрушку к розыгрышу" +
+                "\n4.Добавить все имеющиеся игрушки к розыгрышу" +
+                "\n5.Разыграть игрушку" +
+                "\n6.Забрать игрушку" +
+                "\n7.Выход");
     }
 
     public Toy createToy(){

@@ -1,7 +1,10 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -12,6 +15,7 @@ import java.util.stream.IntStream;
 public class Giveaway {
     public ArrayList<Toy> toysToWin = new ArrayList<>();
     public int prize;
+    public Map <Date, String> winner = new HashMap<>();
 
     public Giveaway() {
     }
@@ -28,7 +32,6 @@ public class Giveaway {
     /**
      * метод для розыгрыша игрушки с учетом шанса её выпадения
      */
-    // TODO: 28.08.2023 добавить проверку на сумму вероятностей выпадения не превышающую 100 (можно попробовать исключение)
     public void randomize(){
         int[] ids = new int[toysToWin.size()];
         int[] chance = new int[toysToWin.size()];
@@ -57,6 +60,7 @@ public class Giveaway {
      * забираем выигранную игрушку и уменьшаем оставшееся кол-во таких игрушек
      */
     public void getPrize(){
+        Date date = new Date();
         String prizeName = null;
         for (Toy toy : toysToWin) {
             if (toy.getToyId() == this.prize){
@@ -65,7 +69,19 @@ public class Giveaway {
             }
         }
         System.out.println("Поздравляем, Вы выиграли: " + prizeName);
+        winner.put(date, prizeName);
+        saveWinnerToFile();
     }
 
+    public void saveWinnerToFile(){
+        File file = new File("All_prizes.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))){
+            for (Map.Entry<Date, String> entry : winner.entrySet()) {
+                writer.write(entry.toString()+"\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

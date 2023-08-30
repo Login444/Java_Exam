@@ -47,11 +47,9 @@ public class Toy {
 
     @Override
     public String toString() {
-        return "Toy{" +
-                "toyId=" + toyId +
-                ", toyName='" + toyName + '\'' +
-                ", numberOfToys=" + numberOfToys +
-                ", dropProbability=" + dropProbability +
-                '}';
+        return  "Id: " + toyId +
+                "; Name: " + toyName + '\'' +
+                "; Amount: " + numberOfToys +
+                "; Drop percent: " + dropProbability;
     }
 }
